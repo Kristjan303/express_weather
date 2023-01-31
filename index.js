@@ -21,7 +21,7 @@ const getWeatherDataPromise = (url) => {
                 let city = data.name
                 let temp = Math.round(parseFloat(data.main.temp) -273.15)
                 let result = {
-                    description: description, city: city, temp: temp}
+                    description: description, city: city, temp: temp, error: null}
                     resolve(result)
             })
             .catch(error => {
@@ -42,6 +42,9 @@ app.all('/', function (req, res) {
     getWeatherDataPromise(url).then(data => {
         res.render('index', data)
     })
+        .catch(error => {
+            res.render('index', {error: 'Problem with gettinf data, try again'})
+        })
 })
 
 
